@@ -12,11 +12,9 @@ import { HomeIcon } from "@heroicons/react/solid";
 // component for the header of the website
 // included all 3 sides (search bar, logo, profile icon)
 
-// todo: center search icon
-
 function Header() {
   return (
-    <div className="">
+    <div className="shadow-sm border-b bg-white sticky top-0 z-50">
       <div className="flex justify-between items-center max-w-6xl mx-5 xl:mx-auto">
         {/* LEFT SECTION aka LOGO */}
         <div className="relative hidden lg:inline-grid w-24 h-24">
