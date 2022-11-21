@@ -1,25 +1,23 @@
 {
-  "private": true,
+  "name": "intouch",
+  "version": "1.0.0",
+  "description": "This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v3.0)](https://tailwindcss.com/blog/tailwindcss-v3) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).",
+  "main": "next.config.js",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArshS1/in-touch.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ArshS1/in-touch/issues"
+  },
+  "homepage": "https://github.com/ArshS1/in-touch#readme",
   "dependencies": {
-    "@heroicons/react": "^1.0.6",
-    "@tailwindcss/forms": "^0.5.3",
-    "faker": "^5.5.3",
-    "next": "latest",
-    "react": "18.1.0",
-    "react-dom": "18.1.0"
-  },
-  "devDependencies": {
-    "@types/node": "17.0.35",
-    "@types/react": "18.0.9",
-    "@types/react-dom": "18.0.5",
-    "autoprefixer": "^10.4.7",
-    "postcss": "^8.4.14",
-    "tailwindcss": "^3.1.2",
-    "typescript": "4.7.2"
+    "firebase": "^9.14.0",
+    "next-auth": "4.17.0"
   }
 }
