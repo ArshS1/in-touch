@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import {
   SearchIcon,
   PlusCircleIcon,
@@ -10,17 +10,22 @@ import {
   MenuIcon,
 } from "@heroicons/react/outline";
 import { HomeIcon } from "@heroicons/react/solid";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
 // component for the header of the website
 // included all 3 sides (search bar, logo, profile icon)
 
 function Header() {
   const { data: session, status } = useSession();
-
+  const router = useRouter();
   return (
     <div className="shadow-sm border-b bg-white sticky top-0 z-50">
       <div className="flex justify-between items-center max-w-6xl mx-5 xl:mx-auto">
         {/* LEFT SECTION aka LOGO */}
-        <div className="relative hidden lg:inline-grid w-24 h-24">
+        <div
+          onClick={() => router.push("/")}
+          className="relative hidden lg:inline-grid w-24 h-24"
+        >
           <Image
             src="https://www.logo.wine/a/logo/Instagram/Instagram-Wordmark-Logo.wine.svg"
             // prevent stretching out image
@@ -29,7 +34,10 @@ function Header() {
           />
         </div>
 
-        <div className="relative w-10 lg:hidden flex-shrink-0 cursor-pointer">
+        <div
+          onClick={() => router.push("/")}
+          className="relative w-10 lg:hidden flex-shrink-0 cursor-pointer"
+        >
           <Image
             src="https://i.ibb.co/w7m7ssc/hands-removebg-preview.png"
             layout="fill"
@@ -54,24 +62,27 @@ function Header() {
         {/* MIDDLE SECTION ENDS */}
 
         {/* RIGHT SECTION aka PROFILE PIC */}
-        {session ? (
-          <div className="flex items-center justify-end space-x-4">
-            <HomeIcon className="navBtn" />
-            <PaperAirplaneIcon className="navBtn" />
-            <MenuIcon className="h-6 md:hidden cursor-pointer" />
-            <PlusCircleIcon className="navBtn" />
-            <UserGroupIcon className="navBtn" />
-            <HeartIcon className="navBtn" />
+        <div className="flex items-center justify-end space-x-4">
+          <HomeIcon className="navBtn" onClick={() => router.push("/")} />
+          <MenuIcon className="h-6 md:hidden cursor-pointer" />
+          {session ? (
+            <>
+              <PaperAirplaneIcon className="navBtn" />
+              <PlusCircleIcon className="navBtn" />
+              <UserGroupIcon className="navBtn" />
+              <HeartIcon className="navBtn" />
 
-            <img
-              src={session?.user?.image}
-              alt="Profile Pic"
-              className="h-10 rounded-full cursor-pointer"
-            />
-          </div>
-        ) : (
-          <p>Sign in Please</p>
-        )}
+              <img
+                src={session?.user?.image}
+                alt="Profile Pic"
+                className="h-10 w-10 rounded-full cursor-pointer"
+                onClick={signOut}
+              />
+            </>
+          ) : (
+            <button onClick={signIn}>Sign In</button>
+          )}
+        </div>
 
         {/* RIGHT SECTION ENDS */}
       </div>
