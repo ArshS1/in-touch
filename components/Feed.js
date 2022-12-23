@@ -29,7 +29,6 @@ function Feed() {
               {/* MINI PROFILE */}
               <MiniProfile />
               {/* SUGGESTIONS */}
-              <Suggestions />
             </div>
           </section>
         </>

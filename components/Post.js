@@ -4,22 +4,38 @@ import {
   DotsHorizontalIcon,
   EmojiHappyIcon,
   HeartIcon,
+  HeartIconFilled,
 } from "@heroicons/react/outline";
 import {
   addDoc,
   collection,
+  deleteDoc,
   onSnapshot,
   orderBy,
   query,
   serverTimestamp,
+  setDoc,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../firebase";
+import Moment from "react-moment";
 
 function Post({ id, username, userImg, img, caption }) {
   const { data: session } = useSession();
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
+  const [likes, setLikes] = useState([]);
+  const [hasLiked, setHasLiked] = useState(false);
+
+  const likePost = async () => {
+    if (hasLiked) {
+      await deleteDoc(doc(db, "posts", id, "likes", session.user.uid));
+    } else {
+      await setDoc(doc(db, "posts", id, "likes", session.user.uid), {
+        username: session.user.username,
+      });
+    }
+  };
 
   const sendComment = async (e) => {
     e.preventDefault();
@@ -43,7 +59,23 @@ function Post({ id, username, userImg, img, caption }) {
         ),
         (snapshot) => setComments(snapshot.docs)
       ),
-    [db]
+    [db, id]
+  );
+
+  useEffect(
+    () =>
+      onSnapshot(collection(db, "posts", id, "likes"), (snapshot) =>
+        setLikes(snapshot.docs)
+      ),
+    [db, id]
+  );
+
+  useEffect(
+    () =>
+      setHasLiked(
+        likes.findIndex((like) => like.id === session?.user?.uid) !== -1
+      ),
+    [likes]
   );
 
   return (
@@ -72,7 +104,11 @@ function Post({ id, username, userImg, img, caption }) {
       {session && (
         <div className="flex justify-between px-4 pt-4">
           <div className="flex space-x-4">
-            <HeartIcon className="btn" />
+            {hasLiked ? (
+              <HeartIconFilled onClick={likePost} className="btn" />
+            ) : (
+              <HeartIcon onClick={likePost} className="btn" />
+            )}
             <ChatIcon className="btn" />
           </div>
           <BookmarkIcon className="btn" />
@@ -81,15 +117,41 @@ function Post({ id, username, userImg, img, caption }) {
       {/* BUTTONS END */}
 
       {/* CAPTION */}
-      <div>
-        <p className="p-5 truncate">
-          <span className="font-bold mr-1">{username}</span>
-          {caption}
-        </p>
-      </div>
+      {session && (
+        <div>
+          <p className="p-5 truncate">
+            {likes.length > 0 && (
+              <p className="font-bold mb-1">
+                {likes.length === 1 ? "1 Like" : likes.length + " Likes"}
+              </p>
+            )}
+            <span className="font-bold mr-1">{username}</span>
+            {caption}
+          </p>
+        </div>
+      )}
       {/* CAPTION ENDS */}
 
       {/* COMMENTS */}
+      {comments.length() > 0 && (
+        <div className="ml-10 h-20 overflow-y-scroll scrollbar-thumb-black scrollbar-thin">
+          {comments.map((comment) => (
+            <div key={comment.id} className="flex items-center space-x-2 mb-3">
+              <img
+                src={comment.data().userImage}
+                className="h-2 rounded-full"
+                alt=""
+              />
+              <p className="text-sm flex-1">
+                <span>{comment.data().comment}</span>
+              </p>
+              <Moment fromNow className="pr-5 text-xs">
+                {comment.data().timestamp?.toDate()}
+              </Moment>
+            </div>
+          ))}
+        </div>
+      )}
       {/* COMMENTS END */}
 
       {/* INPUT BOX */}
