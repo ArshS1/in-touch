@@ -21,14 +21,16 @@ function Posts() {
     <div>
       {/* POSTS */}
       {posts.map((post) => {
-        <Post
-          key={post.id}
-          id={post.id}
-          username={post.data().username}
-          userImg={post.data().profileImg}
-          img={post.data().image}
-          caption={post.dat().caption}
-        />;
+        return (
+          <Post
+            key={post.id}
+            id={post.id}
+            username={post.data().username}
+            userImg={post.data().profileImg}
+            img={post.data().image}
+            caption={post.data().caption}
+          />
+        );
       })}
       {/* POSTS ENDS */}
     </div>

@@ -2,7 +2,6 @@ import { useRecoilState } from "recoil";
 import { modalState } from "../atoms/modalAtom";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useRef, useState } from "react";
-import { cameraIcon } from "@heroicons/react/outline";
 import { db, storage } from "../firebase";
 import {
   addDoc,
@@ -29,7 +28,7 @@ function Modal() {
 
   const addImageToPost = (e) => {
     const reader = new FileReader();
-    if (e.targer.files[0]) {
+    if (e.target.files[0]) {
       reader.readAsDataURL(e.target.files[0]);
     }
     reader.onload = (readerEvent) => {
@@ -43,14 +42,12 @@ function Modal() {
     }
     setLoading(true);
 
-    const getRef = await addDoc(
-      collection(db, "posts", {
-        username: session.user.username,
-        caption: captionRef.current.value,
-        profileImg: session.user.image,
-        timestamp: serverTimestamp,
-      })
-    );
+    const getRef = await addDoc(collection(db, "posts"), {
+      username: session.user.username,
+      caption: captionRef.current.value,
+      profileImg: session.user.image,
+      timestamp: serverTimestamp(),
+    });
 
     const imageReference = ref(storage, `posts/${getRef.id}/image`);
 

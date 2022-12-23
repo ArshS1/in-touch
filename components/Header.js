@@ -29,40 +29,10 @@ function Header() {
           onClick={() => router.push("/")}
           className="relative hidden lg:inline-grid w-24 h-24"
         >
-          <Image
-            src="https://www.logo.wine/a/logo/Instagram/Instagram-Wordmark-Logo.wine.svg"
-            // prevent stretching out image
-            layout="fill"
-            objectFit="contain"
-          />
+          <p className="flex items-center hover:cursor-pointer">inTouch</p>
         </div>
 
-        <div
-          onClick={() => router.push("/")}
-          className="relative w-10 lg:hidden flex-shrink-0 cursor-pointer"
-        >
-          <Image
-            src="https://i.ibb.co/w7m7ssc/hands-removebg-preview.png"
-            layout="fill"
-            objectFit="contain"
-          />
-        </div>
         {/* LEFT SECTION ENDS */}
-
-        {/* MIDDLE SECTION aka SEARCH */}
-        <div>
-          <div className="relative mt-1 p-3 rounded-md">
-            <div className="absolute pl-3 flex inset-y-0 items-center pointer-events-none">
-              <SearchIcon className="h-5 w-5 text-gray-500" />
-            </div>
-            <input
-              type="text"
-              placeholder="Search"
-              className="bg-gray-50 block w-full pl-10 sm:text-sm border-gray focus:ring-black focus:border-black"
-            />
-          </div>
-        </div>
-        {/* MIDDLE SECTION ENDS */}
 
         {/* RIGHT SECTION aka PROFILE PIC */}
         <div className="flex items-center justify-end space-x-4">
@@ -70,13 +40,10 @@ function Header() {
           <MenuIcon className="h-6 md:hidden cursor-pointer" />
           {session ? (
             <>
-              <PaperAirplaneIcon className="navBtn" />
               <PlusCircleIcon
                 onClick={() => setOpen(true)}
                 className="navBtn"
               />
-              <UserGroupIcon className="navBtn" />
-              <HeartIcon className="navBtn" />
 
               <img
                 src={session?.user?.image}
