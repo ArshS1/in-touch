@@ -1,7 +1,7 @@
 import { useRecoilState } from "recoil";
 import { modalState } from "../atoms/modalAtom";
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useRef } from "react";
+import { Fragment, useRef, useState } from "react";
 import { cameraIcon } from "@heroicons/react/outline";
 import { db, storage } from "../firebase";
 import {
@@ -68,7 +68,7 @@ function Modal() {
   };
 
   return (
-    <Transition.root show={open}>
+    <Transition.Root show={open}>
       <Dialog
         as="div"
         className="fixed z-10 inset-0 overflow-y-auto"
@@ -153,18 +153,18 @@ function Modal() {
               <div className="mt-5 sm:mt-6">
                 <button
                   type="button"
-                  disabled={selectedFile}
+                  disabled={!selectedFile}
                   className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:text-sm disabled:bg-gray-300 disabled:cursor-not-allowed hover:disabled:bg-gray-300"
                   onClick={uploadPost}
                 >
-                  upload Post
+                  {loading ? "Uploading..." : "Upload Post"}
                 </button>
               </div>
             </div>
           </Transition.Child>
         </div>
       </Dialog>
-    </Transition.root>
+    </Transition.Root>
   );
 }
 

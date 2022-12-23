@@ -1,5 +1,4 @@
 import React from "react";
-import Stories from "./Stories";
 import Posts from "./Posts";
 import MiniProfile from "./MiniProfile";
 import { useSession } from "next-auth/react";
@@ -15,7 +14,6 @@ function Feed() {
       {/* SECTION */}
       <section className="col-span-2">
         {/* STORIES */}
-        <Stories />
         {/* STORIES ENDS */}
 
         {/* POSTS */}

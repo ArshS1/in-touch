@@ -5,9 +5,47 @@ import {
   EmojiHappyIcon,
   HeartIcon,
 } from "@heroicons/react/outline";
-import React from "react";
+import {
+  addDoc,
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  serverTimestamp,
+} from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { db } from "../firebase";
 
 function Post({ id, username, userImg, img, caption }) {
+  const { data: session } = useSession();
+  const [comment, setComment] = useState("");
+  const [comments, setComments] = useState([]);
+
+  const sendComment = async (e) => {
+    e.preventDefault();
+    const commentSending = comment;
+    setComment("");
+
+    await addDoc(collection(db, "posts", id, "comments"), {
+      comment: commentSending,
+      username: session.user.username,
+      userImage: session.user.image,
+      timestamp: serverTimestamp(),
+    });
+  };
+
+  useEffect(
+    () =>
+      onSnapshot(
+        query(
+          collection(db, "posts", id, "comments"),
+          orderBy("timestamp", "desc")
+        ),
+        (snapshot) => setComments(snapshot.docs)
+      ),
+    [db]
+  );
+
   return (
     <div className="bg-white my-7 border rounded-sm ">
       {/* HEADER */}
@@ -31,13 +69,15 @@ function Post({ id, username, userImg, img, caption }) {
       {/* IMG ENDS */}
 
       {/* BUTTONS */}
-      <div className="flex justify-between px-4 pt-4">
-        <div className="flex space-x-4">
-          <HeartIcon className="btn" />
-          <ChatIcon className="btn" />
+      {session && (
+        <div className="flex justify-between px-4 pt-4">
+          <div className="flex space-x-4">
+            <HeartIcon className="btn" />
+            <ChatIcon className="btn" />
+          </div>
+          <BookmarkIcon className="btn" />
         </div>
-        <BookmarkIcon className="btn" />
-      </div>
+      )}
       {/* BUTTONS END */}
 
       {/* CAPTION */}
@@ -53,13 +93,25 @@ function Post({ id, username, userImg, img, caption }) {
       {/* COMMENTS END */}
 
       {/* INPUT BOX */}
-      <form className="flex items-center p-4">
-        <EmojiHappyIcon className="h-7" />
-        <input type="text" className="border-none flex-1 focus:ring-0 outline-none" placeholder="Add a comment.." />
-        <button className="font-semibold text-blue-400">
+      {session && (
+        <form className="flex items-center p-4">
+          <EmojiHappyIcon className="h-7" />
+          <input
+            type="text"
+            className="border-none flex-1 focus:ring-0 outline-none"
+            placeholder="Add a comment.."
+            value={comment}
+          />
+          <button
+            disabled={!comment.trim()}
+            type="submit"
+            className="font-semibold text-blue-400"
+            onClick={sendComment}
+          >
             Post
-        </button>
-      </form>
+          </button>
+        </form>
+      )}
       {/* INPUT BOX ENDS */}
     </div>
   );
