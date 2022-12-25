@@ -3,14 +3,21 @@ import {
   ChatIcon,
   DotsHorizontalIcon,
   HeartIcon,
-  HeartIconFilled,
 } from "@heroicons/react/outline";
+import { HeartIcon as HeartIconFilled } from "@heroicons/react/solid";
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
 import { Moment } from "react-moment";
 import { useSession } from "next-auth/react";
-import { doc, orderBy, collection, onSnapshot, query } from "firebase/firestore";
-
+import {
+  doc,
+  orderBy,
+  collection,
+  onSnapshot,
+  query,
+  setDoc,
+  deleteDoc,
+} from "firebase/firestore";
 
 export default function Post({ id, username, userImg, img, caption }) {
   const { data: session } = useSession();
@@ -19,12 +26,13 @@ export default function Post({ id, username, userImg, img, caption }) {
   const [likes, setLikes] = useState([]);
   const [hasLiked, setHasLiked] = useState(false);
 
-  const likePost = async () => {
+  const likePost = async (e) => {
+    e.preventDefault();
     if (hasLiked) {
-      await deleteDoc(doc(db, "posts", id, "likes", session?.user.uid));
+      await deleteDoc(doc(db, "posts", id, "likes", session.user.uid));
     } else {
-      await setDoc(doc(db, "posts", id, "likes", session?.user.uid), {
-        username: session?.user.username,
+      await setDoc(doc(db, "posts", id, "likes", session.user.uid), {
+        username: session.user.username,
       });
     }
   };
@@ -68,6 +76,7 @@ export default function Post({ id, username, userImg, img, caption }) {
       ),
     [likes]
   );
+
   return (
     <div className="bg-white my-7 border rounded-sm ">
       {/* HEADER */}
@@ -94,10 +103,15 @@ export default function Post({ id, username, userImg, img, caption }) {
       {session && (
         <div className="flex justify-between px-4 pt-4">
           <div className="flex space-x-4">
-            {hasLiked ? (
-              <HeartIconFilled onClick={likePost} className="btn" />
+            {hasLiked === true ? (
+              <HeartIconFilled  onClick={likePost} className="btn" />
             ) : (
+              ""
+            )}
+            {hasLiked === false ? (
               <HeartIcon onClick={likePost} className="btn" />
+            ) : (
+              ""
             )}
             <ChatIcon className="btn" />
           </div>
