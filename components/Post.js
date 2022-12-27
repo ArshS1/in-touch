@@ -7,7 +7,7 @@ import {
 import { HeartIcon as HeartIconFilled } from "@heroicons/react/solid";
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
-import { Moment } from "react-moment";
+import Moment from "react-moment";
 import { useSession } from "next-auth/react";
 import {
   doc,
@@ -17,6 +17,8 @@ import {
   query,
   setDoc,
   deleteDoc,
+  addDoc,
+  serverTimestamp,
 } from "firebase/firestore";
 
 export default function Post({ id, username, userImg, img, caption }) {
@@ -90,7 +92,6 @@ export default function Post({ id, username, userImg, img, caption }) {
         <DotsHorizontalIcon className="h-5" />
       </div>
       {/* HEADER ENDS */}
-
       {/* IMG */}
       <img
         className="object-cover w-full"
@@ -98,13 +99,12 @@ export default function Post({ id, username, userImg, img, caption }) {
         alt="user uploaded image"
       />
       {/* IMG ENDS */}
-
       {/* BUTTONS */}
       {session && (
         <div className="flex justify-between px-4 pt-4">
           <div className="flex space-x-4">
             {hasLiked === true ? (
-              <HeartIconFilled  onClick={likePost} className="btn" />
+              <HeartIconFilled onClick={likePost} className="btn" />
             ) : (
               ""
             )}
@@ -119,7 +119,6 @@ export default function Post({ id, username, userImg, img, caption }) {
         </div>
       )}
       {/* BUTTONS END */}
-
       {/* CAPTION */}
       {session && (
         <div>
@@ -133,7 +132,6 @@ export default function Post({ id, username, userImg, img, caption }) {
         </div>
       )}
       {/* CAPTION ENDS */}
-
       {/* COMMENTS */}
       {comments.length > 0 && (
         <div className="ml-10 h-20 overflow-y-scroll scrollbar-thumb-black scrollbar-thin">
@@ -154,8 +152,8 @@ export default function Post({ id, username, userImg, img, caption }) {
           ))}
         </div>
       )}
-      {/* COMMENTS END */}
 
+      {/* COMMENTS END */}
       {/* INPUT BOX */}
       {session && (
         <form className="flex items-center p-4">
