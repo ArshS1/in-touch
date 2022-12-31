@@ -13,13 +13,13 @@ import { HomeIcon } from "@heroicons/react/solid";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
-import { modalState } from "../atoms/modalAtom";
+import { stateModal } from "../atoms/modalAtom";
 // component for the header of the website
 // included all 3 sides (search bar, logo, profile icon)
 
 function Header() {
   const { data: session, status } = useSession();
-  const [open, setOpen] = useRecoilState(modalState);
+  const [open, setOpen] = useRecoilState(stateModal);
   const router = useRouter();
   return (
     <div className="shadow-sm border-b bg-white sticky top-0 z-50">

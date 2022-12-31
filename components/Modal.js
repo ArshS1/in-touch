@@ -1,5 +1,5 @@
 import { useRecoilState } from "recoil";
-import { modalState } from "../atoms/modalAtom";
+import { stateModal } from "../atoms/modalAtom";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useRef, useState } from "react";
 import { db, storage } from "../firebase";
@@ -20,7 +20,7 @@ import {
 
 function Modal() {
   const { data: session } = useSession();
-  const [open, setOpen] = useRecoilState(modalState);
+  const [open, setOpen] = useRecoilState(stateModal);
   const filePickerRef = useRef(null);
   const captionRef = useRef(null);
   const [loading, setLoading] = useState(false);

@@ -5,7 +5,6 @@ function signIn({ providers }) {
   return (
     <>
       <Header />
-
       <div className="flex flex-col items-center justify-center min-h-screen py-2 -mt-56 px-14 text-center">
         <div className="mt-40">
           {Object.values(providers).map((provider) => (
