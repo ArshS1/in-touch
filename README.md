@@ -1,3 +1,24 @@
+# inTouch
+
+## A website built to keep people in touch and share content with each other on the web
+
+## Features
+- Interact with posts through commenting/liking
+- Google OAuth Authentication
+- Cross platform
+
+## Tech Stack
+
+> ### Client 
+> Next.js, TypeScript, Tailwind, Recoil
+
+> ### Server
+> Firebase, Express, NextAuth
+
+Below is an image of the main page:
+![Screen Shot 2023-01-08 at 9 23 35 PM](https://user-images.githubusercontent.com/90710790/211232110-50104fab-230d-441a-bd95-f29070fe3c3a.png)
+
+
 # Next.js + Tailwind CSS Example
 
 This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v3.0)](https://tailwindcss.com/blog/tailwindcss-v3) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
@@ -25,3 +46,6 @@ pnpm create next-app --example with-tailwindcss with-tailwindcss-app
 ```
 
 Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+
+## License
+<a href="https://choosealicense.com/licenses/mit/">MIT</a>
